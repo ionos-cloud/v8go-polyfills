@@ -10,16 +10,17 @@ import (
 )
 
 // Option ...
-type Option func(*console)
+type Option func(*Console)
 
 // WithOutput ...
 func WithOutput(output io.Writer) Option {
-	return func(c *console) {
+	return func(c *Console) {
 		c.out = output
 	}
 }
 
-type console struct {
+// Console ...
+type Console struct {
 	out        io.Writer
 	methodName string
 }
@@ -56,8 +57,8 @@ func AddTo(ctx *v8.Context, opt ...Option) error {
 }
 
 // New ...
-func New(opt ...Option) *console {
-	c := new(console)
+func New(opt ...Option) *Console {
+	c := new(Console)
 
 	c.out = os.Stdout
 	c.methodName = "log"
@@ -69,11 +70,8 @@ func New(opt ...Option) *console {
 	return c
 }
 
-// Console is a JavaScript console object.
-type Console interface{}
-
 // GetFunctionCallback ...
-func (c *console) GetFunctionCallback() v8.FunctionCallback {
+func (c *Console) GetFunctionCallback() v8.FunctionCallback {
 	return func(info *v8.FunctionCallbackInfo) *v8.Value {
 		if args := info.Args(); len(args) > 0 {
 			inputs := make([]interface{}, len(args))

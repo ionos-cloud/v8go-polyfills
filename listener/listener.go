@@ -7,20 +7,16 @@ import (
 )
 
 // Option ...
-type Option func(*listener)
+type Option func(*Listener)
 
-type listener struct {
+// Listener ...
+type Listener struct {
 	events map[string]chan *v8.Object
 }
 
-// Listener ...
-type Listener interface {
-	GetFunctionCallback() v8.FunctionCallback
-}
-
 // New ...
-func New(opt ...Option) *listener {
-	c := new(listener)
+func New(opt ...Option) *Listener {
+	c := new(Listener)
 	c.events = make(map[string]chan *v8.Object)
 
 	for _, o := range opt {
@@ -32,7 +28,7 @@ func New(opt ...Option) *listener {
 
 // WithEvents ...
 func WithEvents(name string, events chan *v8.Object) Option {
-	return func(l *listener) {
+	return func(l *Listener) {
 		l.events[name] = events
 	}
 }
@@ -51,7 +47,7 @@ func AddTo(iso *v8.Isolate, global *v8.ObjectTemplate, opt ...Option) error {
 }
 
 // GetFunctionCallback ...
-func (l *listener) GetFunctionCallback() v8.FunctionCallback {
+func (l *Listener) GetFunctionCallback() v8.FunctionCallback {
 	return func(info *v8.FunctionCallbackInfo) *v8.Value {
 		ctx := info.Context()
 		args := info.Args()
