@@ -15,9 +15,10 @@ func BenchmarkEventListenerCall(b *testing.B) {
 	iso := v8.NewIsolate()
 	global := v8.NewObjectTemplate(iso)
 
-	events := make(chan *v8.Object)
+	in := make(chan *v8.Object)
+	out := make(chan *v8.Value)
 
-	if err := listener.AddTo(iso, global, listener.WithEvents("auth", events)); err != nil {
+	if err := listener.AddTo(iso, global, listener.WithEvents("auth", in, out)); err != nil {
 		panic(err)
 	}
 
@@ -37,8 +38,12 @@ func BenchmarkEventListenerCall(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		obj, err := newContextObject(ctx)
 		assert.NoError(b, err)
+		in <- obj
 
-		events <- obj
+		v := <-out
+
+		assert.NotNil(b, v)
+		assert.True(b, v.IsBoolean())
 	}
 }
 
