@@ -16,6 +16,19 @@ type Timer struct {
 	sync.Once
 }
 
+// CallbackFunction ...
+type CallbackFunction func()
+
+// NewTimer ...
+func NewTimer(id int32, delay int32, cb CallbackFunction) *Timer {
+	return &Timer{
+		ID:    id,
+		Delay: delay,
+		Done:  make(chan bool),
+		cb:    cb,
+	}
+}
+
 // Clear ...
 func (t *Timer) Clear() {
 	t.Do(func() {
