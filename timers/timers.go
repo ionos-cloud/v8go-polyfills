@@ -15,6 +15,7 @@ type Timers struct {
 	nextTimeoutID int32
 
 	sync.RWMutex
+	utils.Injector
 }
 
 // New ...
@@ -26,26 +27,24 @@ func New() *Timers {
 }
 
 // Inject ...
-func Inject() utils.Injector {
-	return func(iso *v8.Isolate, global *v8.ObjectTemplate) error {
-		time := New()
+func (t *Timers) Inject(iso *v8.Isolate, global *v8.ObjectTemplate) error {
+	time := New()
 
-		for _, f := range []struct {
-			Name string
-			Func func() v8.FunctionCallback
-		}{
-			{"setTimeout", time.GetSetTimeoutFunctionCallback},
-			{"clearTimeout", time.GetClearTimeoutFunctionCallback},
-		} {
-			fn := v8.NewFunctionTemplate(iso, f.Func())
+	for _, f := range []struct {
+		Name string
+		Func func() v8.FunctionCallback
+	}{
+		{"setTimeout", time.GetSetTimeoutFunctionCallback},
+		{"clearTimeout", time.GetClearTimeoutFunctionCallback},
+	} {
+		fn := v8.NewFunctionTemplate(iso, f.Func())
 
-			if err := global.Set(f.Name, fn, v8.ReadOnly); err != nil {
-				return fmt.Errorf("v8-polyfills/listener: %w", err)
-			}
+		if err := global.Set(f.Name, fn, v8.ReadOnly); err != nil {
+			return fmt.Errorf("v8-polyfills/listener: %w", err)
 		}
-
-		return nil
 	}
+
+	return nil
 }
 
 // GetSetTimeoutFunctionCallback ...

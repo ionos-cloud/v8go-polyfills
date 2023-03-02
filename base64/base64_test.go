@@ -36,7 +36,7 @@ func newV8goContext() (*v8.Context, error) {
 
 	b := New()
 
-	if err := b.Inject()(iso, global); err != nil {
+	if err := b.Inject(iso, global); err != nil {
 		return nil, err
 	}
 

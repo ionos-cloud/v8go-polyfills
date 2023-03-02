@@ -36,10 +36,8 @@ func WithEvents(name string, in chan *v8.Object, out chan *v8.Value) Option {
 	}
 }
 
-// AddTo ...
-func AddTo(iso *v8.Isolate, global *v8.ObjectTemplate, opt ...Option) error {
-	l := New(opt...)
-
+// Inject ...
+func (l *Listener) Inject(iso *v8.Isolate, global *v8.ObjectTemplate) error {
 	ctxFn := v8.NewFunctionTemplate(iso, l.GetFunctionCallback())
 
 	if err := global.Set("addListener", ctxFn, v8.ReadOnly); err != nil {

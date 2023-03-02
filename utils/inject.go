@@ -5,4 +5,6 @@ import (
 )
 
 // Injector ...
-type Injector func(*v8.Isolate, *v8.ObjectTemplate) error
+type Injector interface {
+	Inject(*v8.Isolate, *v8.ObjectTemplate) error
+}

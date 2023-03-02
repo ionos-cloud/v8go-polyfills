@@ -18,9 +18,9 @@ func BenchmarkEventListenerCall(b *testing.B) {
 	in := make(chan *v8.Object)
 	out := make(chan *v8.Value)
 
-	if err := listener.AddTo(iso, global, listener.WithEvents("auth", in, out)); err != nil {
-		panic(err)
-	}
+	l := listener.New()
+	err := l.Inject(iso, global)
+	assert.NoError(b, err)
 
 	ctx := v8.NewContext(iso, global)
 
@@ -28,7 +28,7 @@ func BenchmarkEventListenerCall(b *testing.B) {
 		panic(err)
 	}
 
-	_, err := ctx.RunScript("addListener('auth', event => { return event.sourceIP === '127.0.0.1' })", "listener.js")
+	_, err = ctx.RunScript("addListener('auth', event => { return event.sourceIP === '127.0.0.1' })", "listener.js")
 	if err != nil {
 		panic(err)
 	}

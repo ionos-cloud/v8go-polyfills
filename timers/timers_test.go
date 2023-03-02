@@ -28,10 +28,10 @@ func newContextWithTimers() (*v8.Context, error) {
 	iso := v8.NewIsolate()
 	global := v8.NewObjectTemplate(iso)
 
-	if err := Inject()(iso, global); err != nil {
+	t := New()
+	if err := t.Inject(iso, global); err != nil {
 		return nil, err
 	}
 
 	return v8go.NewContext(iso, global), nil
-
 }
