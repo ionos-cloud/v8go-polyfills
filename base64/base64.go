@@ -5,8 +5,8 @@ import (
 
 	b64 "encoding/base64"
 
+	v8 "github.com/ionos-cloud/v8go"
 	"github.com/ionos-cloud/v8go-polyfills/utils"
-	v8 "rogchap.com/v8go"
 )
 
 // Base64 ...

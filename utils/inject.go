@@ -1,7 +1,7 @@
 package utils
 
 import (
-	v8 "rogchap.com/v8go"
+	v8 "github.com/ionos-cloud/v8go"
 )
 
 // Injector ...

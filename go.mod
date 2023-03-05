@@ -5,9 +5,9 @@ go 1.20
 require (
 	github.com/golang/mock v1.6.0
 	github.com/golangci/golangci-lint v1.51.2
+	github.com/ionos-cloud/v8go v0.8.1
 	github.com/stretchr/testify v1.8.2
 	mvdan.cc/gofumpt v0.4.0
-	rogchap.com/v8go v0.8.0
 )
 
 require (

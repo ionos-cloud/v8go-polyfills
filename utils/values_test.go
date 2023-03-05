@@ -3,8 +3,8 @@ package utils
 import (
 	"testing"
 
+	"github.com/ionos-cloud/v8go"
 	"github.com/stretchr/testify/assert"
-	"rogchap.com/v8go"
 )
 
 func TestNewInt32Value(t *testing.T) {

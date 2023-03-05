@@ -3,9 +3,8 @@ package timers
 import (
 	"testing"
 
+	v8 "github.com/ionos-cloud/v8go"
 	"github.com/stretchr/testify/assert"
-	"rogchap.com/v8go"
-	v8 "rogchap.com/v8go"
 )
 
 func TestNewTimer(t *testing.T) {
@@ -33,5 +32,5 @@ func newContextWithTimers() (*v8.Context, error) {
 		return nil, err
 	}
 
-	return v8go.NewContext(iso, global), nil
+	return v8.NewContext(iso, global), nil
 }

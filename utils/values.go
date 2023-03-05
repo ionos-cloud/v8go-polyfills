@@ -1,6 +1,6 @@
 package utils
 
-import "rogchap.com/v8go"
+import "github.com/ionos-cloud/v8go"
 
 // NewInt32Value ...
 func NewInt32Value(ctx *v8go.Context, i int32) (*v8go.Value, error) {

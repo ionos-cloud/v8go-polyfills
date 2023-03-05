@@ -6,7 +6,7 @@ import (
 
 	"github.com/ionos-cloud/v8go-polyfills/utils"
 
-	v8 "rogchap.com/v8go"
+	v8 "github.com/ionos-cloud/v8go"
 )
 
 // Timers ...
